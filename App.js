@@ -1,10 +1,21 @@
 // Listen for Submit
 
-document.querySelector('#loan-form').addEventListener('submit', calculateResults);
+document.querySelector('#loan-form').addEventListener('submit', function (e) {
+    // HIDE RESULTS
+    document.getElementById('results').style.display = 'none';
+
+    // SHOW LOADER
+    document.getElementById('loading').style.display = 'block';
+
+    // Show Results after 2secs by caliing the calculateResults function
+    setTimeout(calculateResults, 2000);
+
+    e.preventDefault();
+});
 
 // Calculate Results
 
-function calculateResults(e) {
+function calculateResults() {
     // console.log('calculating...');
 
     // GET UI 
@@ -43,7 +54,16 @@ function calculateResults(e) {
         totalPayment.value = (monthly * calculatedPayment).toFixed(2);
 
         totalInterest.value = ((monthly * calculatedPayment) - principle).toFixed(2);
+
+        // SHOW RESULTS AFTER LOADING THE SPINNER FOR 2SECS
+        document.getElementById('results').style.display = 'block';
+
+        // HIDE SPINNER AFTER DISPLAYING RERSULTS
+        document.getElementById('loading').style.display = 'none';
+
+
     } else {
+
         // GET DOMELEMENT OBJECT TO DISPLAY ERROR
 
         showError('please check your numbers');
@@ -52,8 +72,17 @@ function calculateResults(e) {
     e.preventDefault();
 }
 
+// SHOW ERROR
 
 function showError(error) {
+
+    // HIDE RESULTS AIF ITS SHOWING ERROR
+
+    document.getElementById('results').style.display = 'none';
+
+    // HIDE SPINNER AFTER DISPLAYING ERROR
+
+    document.getElementById('loading').style.display = 'none';
 
     // Create Div Elements
     const errorDiv = document.createElement('div');
